@@ -58,3 +58,20 @@ SELECT
   productos.precio 
 FROM producto_tipo
 INNER JOIN productos ON productos.producto_tipo_id = producto_tipo.id;
+
+-- 6
+-- group devuelve el numero de filas de un criterio
+-- se usa left join para que aparezcan tambien los clientes con o sin pedidos
+-- este comando se usa de esta forma ya que de otra me hubiera dado el error 'sql_mode=only_full_group_by'
+SELECT 
+  clientes.id AS cliente_id,
+  clientes.nombre,
+  clientes.apellidos,
+COUNT(pedidos.id) AS total_pedidos
+FROM clientes
+LEFT JOIN pedidos ON pedidos.cliente_id = clientes.id
+GROUP BY clientes.id, clientes.nombre, clientes.apellidos;
+
+-- 7
+SELECT 
+  
