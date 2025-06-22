@@ -188,3 +188,27 @@ INNER JOIN producto_tipo ON productos.producto_tipo_id = producto_tipo.id;
 ```
 ![alt text](image-10.png)
 ## Consultas simples
+
+### 11
+```sql
+-- selecciona todos los elementos de productos con el precio mayor a 50 dolares 
+SELECT * FROM productos WHERE precio > 50;
+```
+![alt text](image-11.png)
+
+### 12
+```sql
+-- solamente hay una persona que vive en Bogotá
+SELECT clientes.id AS id_cliente,
+  clientes.nombre,
+  clientes.apellidos,  
+  clientes_ubicacion.ciudad_id AS id_ciudad,
+  ciudades.ciudad_name
+FROM clientes 
+INNER JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id
+INNER JOIN ciudades ON clientes_ubicacion.ciudad_id = ciudades.id
+WHERE ciudades.ciudad_name = 'Bogotá';
+```
+![alt text](image-12.png)
+
+
