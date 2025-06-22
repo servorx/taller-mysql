@@ -173,5 +173,18 @@ LEFT JOIN paises ON paises.id = estados.pais_id;
 ![alt text](image-9.png)
 
 ### 10
-
+```sql
+SELECT 
+  productos.id AS id_producto,
+  productos.nombre,
+  productos.precio,
+  proveedores.id AS id_proveedor,
+  proveedores.nombre, 
+  proveedores.direccion,
+  producto_tipo.nombre_tipo
+FROM productos
+INNER JOIN proveedores ON productos.proveedor_id = proveedores.id 
+INNER JOIN producto_tipo ON productos.producto_tipo_id = producto_tipo.id;
+```
+![alt text](image-10.png)
 ## Consultas simples
