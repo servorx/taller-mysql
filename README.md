@@ -121,7 +121,63 @@ FROM clientes
 LEFT JOIN pedidos ON pedidos.cliente_id = clientes.id
 GROUP BY clientes.id, clientes.nombre, clientes.apellidos;
 ```
-![alt text](image.png)
+![alt text](image-6.png)
 
 ### 7
+```sql
+SELECT 
+  pedidos.id AS id_pedido,
+  pedidos.fecha,
+  pedidos.total,
+  empleados.nombre
+FROM pedidos 
+INNER JOIN empleados ON empleados.id = pedidos.empleado_id;
+```
+![alt text](image-7.png)
+
+### 8
+```sql
+-- EN este caso nos da un empty set ya que no hay ningun registro de un producto que no haya sido pedido
+SELECT
+  productos.id AS id_producto,
+  productos.nombre,
+  productos.precio,
+  pedidos_detalle.producto_id,
+  pedidos_detalle.pedido_id
+FROM pedidos_detalle
+RIGHT JOIN productos ON pedidos_detalle.producto_id = productos.id
+WHERE pedidos_detalle.producto_id IS NULL;
+```
+![alt text](image-8.png)
+
+### 9 
+```sql
+SELECT
+  clientes.id AS id_cliente,
+  clientes.nombre,
+  clientes.apellidos,
+  COUNT(pedidos.id) AS total_pedidos,
+  clientes_ubicacion.direccion,
+  ciudades.ciudad_name,
+  estados.estado_name,
+  paises.pais_name
+FROM clientes
+LEFT JOIN pedidos ON pedidos.cliente_id = clientes.id
+LEFT JOIN clientes_ubicacion ON clientes_ubicacion.cliente_id = clientes.id
+LEFT JOIN ciudades ON ciudades.id = clientes_ubicacion.ciudad_id
+LEFT JOIN estados ON estados.id = ciudades.estado_id
+LEFT JOIN paises ON paises.id = estados.pais_id
+GROUP BY 
+  clientes.id,
+  clientes.nombre,
+  clientes.apellidos,
+  clientes_ubicacion.direccion,
+  ciudades.ciudad_name,
+  estados.estado_name,
+  paises.pais_name;
+```
+![alt text](image-9.png)
+
+### 10
+
 ## Consultas simples
