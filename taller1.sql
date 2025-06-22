@@ -93,28 +93,29 @@ RIGHT JOIN productos ON pedidos_detalle.producto_id = productos.id
 WHERE pedidos_detalle.producto_id IS NULL;
 
 -- 9
-SELECT
+-- en este caso muestra un resultado por cada pedido para simplificar el procedimiento de la consula
+SELECT 
+  pedidos.id AS id_pedido,
+  pedidos.fecha,
+  pedidos.total,
   clientes.id AS id_cliente,
   clientes.nombre,
   clientes.apellidos,
-  COUNT(pedidos.id) AS total_pedidos,
   clientes_ubicacion.direccion,
   ciudades.ciudad_name,
   estados.estado_name,
   paises.pais_name
-FROM clientes
-LEFT JOIN pedidos ON pedidos.cliente_id = clientes.id
-LEFT JOIN clientes_ubicacion ON clientes_ubicacion.cliente_id = clientes.id
-LEFT JOIN ciudades ON ciudades.id = clientes_ubicacion.ciudad_id
-LEFT JOIN estados ON estados.id = ciudades.estado_id
-LEFT JOIN paises ON paises.id = estados.pais_id
-GROUP BY 
-  clientes.id,
-  clientes.nombre,
-  clientes.apellidos,
-  clientes_ubicacion.direccion,
-  ciudades.ciudad_name,
-  estados.estado_name,
-  paises.pais_name;
+FROM pedidos
+INNER JOIN clientes ON pedidos.cliente_id = clientes.id
+INNER JOIN clientes_ubicacion ON clientes_ubicacion.cliente_id = clientes.id
+INNER JOIN ciudades ON ciudades.id = clientes_ubicacion.ciudad_id
+INNER JOIN estados ON estados.id = ciudades.estado_id
+INNER JOIN paises ON paises.id = estados.pais_id;
 
+-- 10
+SELECT 
+
+FROM productos
+INNER JOIN 
+INNER JOIN 
 
