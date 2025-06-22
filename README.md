@@ -49,7 +49,7 @@ SELECT
 FROM pedidos
 INNER JOIN clientes ON pedidos.cliente_id = clientes.id;
 ```
-![alt text](image.png)
+![alt text](image-1.png)
 ### 2
 ```sql
 SELECT productos.id AS id_producto,
@@ -58,7 +58,7 @@ proveedores.id as id_proveedor,
 proveedores.nombre
 FROM productos INNER JOIN proveedores ON productos.proveedor_id = proveedores.id;
 ```
-![alt text](image-1.png)
+![alt text](image-2.png)
 ### 3
 ```sql
 SELECT 
