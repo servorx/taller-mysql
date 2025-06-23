@@ -432,6 +432,15 @@ GROUP BY clientes.id, ciudades.id;
 ![alt text](image-26.png)
 ### 27
 ```sql
+-- para poder ejecutar este comando correctamente toca asignar una ciudad para proveedores y para ello se necesita volver a normalizar las tablas 
+SELECT 
+  clientes.nombre AS nombre_cliente,
+  proveedores.nombre AS nombre_proveedor,
+  ciudades.ciudad_name
+FROM clientes
+INNER JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id
+INNER JOIN ciudades ON clientes_ubicacion.ciudad_id = ciudades.id
+INNER JOIN proveedores ON proveedores.direccion LIKE CONCAT('%', ciudades.ciudad_name, '%');
 ```
 ### 28
 ```sql
@@ -447,7 +456,18 @@ GROUP BY producto_tipo.nombre_tipo;
 ```
 ![alt text](image-28.png)
 ### 29
-
+```sql
+-- se muestra vacio ya que no hay inserts que cumplan con esa consulta 
+SELECT  
+  empleados.id, empleados.nombre
+FROM empleados
+INNER JOIN pedidos ON empleados.id = pedidos.empleado_id
+INNER JOIN pedidos_detalle ON pedidos.id = pedidos_detalle.pedido_id
+INNER JOIN productos ON pedidos_detalle.producto_id = productos.id
+INNER JOIN proveedores ON productos.proveedor_id = proveedores.id
+WHERE proveedores.nombre = 'Proveedor B';
+```
+![alt text](image-29.png)
 ### 30
 ```sql
 SELECT 

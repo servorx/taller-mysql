@@ -313,15 +313,15 @@ INNER JOIN paises ON estados.pais_id = paises.id
 GROUP BY clientes.id, ciudades.id;
 
 -- 27
--- para poder ejecutar este comando correctamente toca asignar una ciudad para proveedores y para ello se necesita volver a normalizar las tablas 
--- SELECT 
---   clientes.nombre AS nombre_cliente,
---   proveedores.nombre AS nombre_proveedor,
---   ciudades.ciudad_name
--- FROM clientes
--- INNER JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id
--- INNER JOIN ciudades ON clientes_ubicacion.ciudad_id = ciudades.id
--- INNER JOIN proveedores ON proveedores.direccion LIKE CONCAT('%', ciudades.ciudad_name, '%');
+para poder ejecutar este comando correctamente toca asignar una ciudad para proveedores y para ello se necesita volver a normalizar las tablas 
+SELECT 
+  clientes.nombre AS nombre_cliente,
+  proveedores.nombre AS nombre_proveedor,
+  ciudades.ciudad_name
+FROM clientes
+INNER JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id
+INNER JOIN ciudades ON clientes_ubicacion.ciudad_id = ciudades.id
+INNER JOIN proveedores ON proveedores.direccion LIKE CONCAT('%', ciudades.ciudad_name, '%');
 
 -- 28
 -- se realiza la multiplicacion por la cantidad de productos con el precio unitario
@@ -335,14 +335,14 @@ INNER JOIN pedidos_detalle ON productos.id = pedidos_detalle.producto_id
 GROUP BY producto_tipo.nombre_tipo;
 
 -- 29
--- SELECT  
---   empleados.id, empleados.nombre
--- FROM empleados
--- INNER JOIN pedidos ON empleados.id = pedidos.empleado_id
--- INNER JOIN pedidos_detalle ON pedidos.id = pedidos_detalle.pedido_id
--- INNER JOIN productos ON pedidos_detalle.producto_id = productos.id
--- INNER JOIN proveedores ON productos.proveedor_id = proveedores.id
--- WHERE proveedores.id = 2;
+SELECT  
+  empleados.id, empleados.nombre
+FROM empleados
+INNER JOIN pedidos ON empleados.id = pedidos.empleado_id
+INNER JOIN pedidos_detalle ON pedidos.id = pedidos_detalle.pedido_id
+INNER JOIN productos ON pedidos_detalle.producto_id = productos.id
+INNER JOIN proveedores ON productos.proveedor_id = proveedores.id
+WHERE proveedores.nombre = 'Proveedor B';
 
 -- 30
 SELECT 
