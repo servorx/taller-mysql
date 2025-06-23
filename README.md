@@ -4,9 +4,9 @@
 
 # 1. Normalizacion 
 
-Se encuentran los comandos de la creacion de las tablas respetcivamente normalizadas en el archivo tablas.sql y los comandos de las consultas en taller.sql
+Se encuentran los comandos de la creacion de las tablas respetcivamente normalizadas en el archivo tablas.sql y los comandos de las consultas en ![Tablas MySQL](./tablas.sql)
 
-## 2. Joins
+# 2. Joins
 
 primero quise hacer las inserciones a todas las tablas para poder concentrarme luego en las consultas, las inserciones fueron las siguientes:
 ```sql
@@ -187,7 +187,7 @@ INNER JOIN proveedores ON productos.proveedor_id = proveedores.id
 INNER JOIN producto_tipo ON productos.producto_tipo_id = producto_tipo.id;
 ```
 ![alt text](image-10.png)
-## Consultas simples
+# Consultas simples
 
 ### 11
 ```sql
@@ -244,4 +244,115 @@ HAVING COUNT(productos.id) > 5;
 
 ### 15
 ```sql
+-- ingresar un cliente sin direccion 
+INSERT INTO clientes(nombre, apellidos) VALUES ('fabio', 'camelo');
+
+-- sale null porque estos clientes no tienen direccion
+SELECT 
+  clientes.id AS id_cliente,
+  clientes.nombre,
+  clientes.apellidos,
+  clientes_ubicacion.direccion
+FROM clientes
+LEFT JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id
+WHERE clientes_ubicacion.id IS NULL;
 ```
+
+![alt text](image-15.png)
+
+### 16
+```sql
+-- en este caso se usa la funcion reservada de sum para poder sumar el total de cada cliente teniendo en cuenta su pedido y porque vuelve a salir el error de sql_mode=only_full_group_by
+SELECT 
+  clientes.id AS id_cliente,
+  clientes.nombre,
+  clientes.apellidos,
+  SUM(pedidos.total) AS total_ventas
+FROM clientes
+INNER JOIN pedidos ON clientes.id = pedidos.cliente_id
+GROUP BY clientes.id, clientes.nombre, clientes.apellidos;
+```
+![alt text](image-16.png)
+
+### 17
+```sql
+SELECT AVG(salario) AS promedio_salario FROM empleados;
+```
+
+![alt text](image-17.png)
+
+### 18
+```sql
+-- listar productos con su respectivo tipo
+SELECT 
+  producto_tipo.id AS id_tipo,
+  producto_tipo.nombre_tipo,
+  producto_tipo.descripcion,
+  productos.nombre,
+  productos.precio
+FROM producto_tipo
+INNER JOIN productos ON producto_tipo.id = productos.producto_tipo_id;
+```
+
+![alt text](image-18.png)
+
+### 19
+```sql
+SELECT 
+  id AS id_producto,
+  nombre,
+  precio
+FROM productos
+ORDER BY precio DESC
+LIMIT 3;
+```
+![alt text](image-19.png)
+
+### 20
+```sql
+-- se cuental los pedidos con count id, se agrupa la consulta por clientes, se ordena de orden ascencidente de acuerdo al numero de pedidos por cliente y se muestra el primero, es decir, el que mas pedidos tiene 
+SELECT 
+  clientes.id AS id_cliente,
+  clientes.nombre,
+  clientes.apellidos,
+  COUNT(pedidos.id) AS total_pedidos
+FROM clientes
+INNER JOIN pedidos ON clientes.id = pedidos.cliente_id
+GROUP BY clientes.id, clientes.nombre, clientes.apellidos
+ORDER BY total_pedidos DESC
+LIMIT 1;
+```
+![alt text](image-20.png)
+# Consultas multitabla 
+
+### 21
+```sql
+-- relacionar pedidos con clientes
+SELECT 
+  pedidos.id AS id_pedido,
+  pedidos.fecha,
+  pedidos.total,
+  clientes.id AS id_cliente,
+  clientes.nombre,
+  clientes.apellidos
+FROM pedidos
+INNER JOIN clientes ON pedidos.cliente_id = clientes.id;
+```
+![alt text](image-21.png)
+### 22
+
+### 23
+
+### 24
+
+### 25
+
+### 26
+
+### 27
+
+### 28
+
+### 29
+
+### 30

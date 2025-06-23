@@ -164,4 +164,85 @@ GROUP BY proveedores.id, proveedores.nombre
 HAVING COUNT(productos.id) > 5;
 
 -- 15
+-- ingresar un cliente sin direccion 
+INSERT INTO clientes(nombre, apellidos) VALUES ('fabio', 'camelo');
 
+-- sale null porque estos clientes no tienen direccion
+SELECT 
+  clientes.id AS id_cliente,
+  clientes.nombre,
+  clientes.apellidos,
+  clientes_ubicacion.direccion
+FROM clientes
+LEFT JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id
+WHERE clientes_ubicacion.id IS NULL;
+
+-- 16
+-- en este caso se usa la funcion reservada de sum para poder sumar el total de cada cliente teniendo en cuenta su pedido y porque vuelve a salir el error de sql_mode=only_full_group_by
+SELECT 
+  clientes.id AS id_cliente,
+  clientes.nombre,
+  clientes.apellidos,
+  SUM(pedidos.total) AS total_ventas
+FROM clientes
+INNER JOIN pedidos ON clientes.id = pedidos.cliente_id
+GROUP BY clientes.id, clientes.nombre, clientes.apellidos;
+
+-- 17
+-- promedio de salario de todos los empleados de la empresa 
+SELECT AVG(salario) AS promedio_salario FROM empleados;
+
+-- 18 
+SELECT 
+  producto_tipo.id AS id_tipo,
+  producto_tipo.nombre_tipo,
+  producto_tipo.descripcion,
+  productos.nombre,
+  productos.precio
+FROM producto_tipo
+INNER JOIN productos ON producto_tipo.id = productos.producto_tipo_id;
+
+-- 19
+-- para este caso se debe de usar el ORDER BY para ordernar de acuerdo al precio de los productos y el LIMIT para que solo aparezcan los 3 con mayor valor.
+SELECT 
+  id AS id_producto,
+  nombre,
+  precio
+FROM productos
+ORDER BY precio DESC
+LIMIT 3;
+
+-- 20 
+-- se cuental los pedidos con count id, se agrupa la consulta por clientes, se ordena de orden ascencidente de acuerdo al numero de pedidos por cliente y se muestra el primero, es decir, el que mas pedidos tiene 
+SELECT 
+  clientes.id AS id_cliente,
+  clientes.nombre,
+  clientes.apellidos,
+  COUNT(pedidos.id) AS total_pedidos
+FROM clientes
+INNER JOIN pedidos ON clientes.id = pedidos.cliente_id
+GROUP BY clientes.id, clientes.nombre, clientes.apellidos
+ORDER BY total_pedidos DESC
+LIMIT 1;
+
+-- 21
+-- relacionar pedidos con clientes
+SELECT 
+  pedidos.id AS id_pedido,
+  pedidos.fecha,
+  pedidos.total,
+  clientes.id AS id_cliente,
+  clientes.nombre,
+  clientes.apellidos
+FROM pedidos
+INNER JOIN clientes ON pedidos.cliente_id = clientes.id;
+
+-- 22
+-- 23
+-- 24
+-- 25
+-- 26
+-- 27
+-- 28
+-- 29
+-- 30
