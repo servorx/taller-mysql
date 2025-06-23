@@ -238,8 +238,48 @@ FROM pedidos
 INNER JOIN clientes ON pedidos.cliente_id = clientes.id;
 
 -- 22
+-- hacer join con las tablas de clientes, clientes_ubicacion, ciudades, estados y paises con pedidos.
+SELECT 
+  pedidos.id AS id_pedido,
+  pedidos.fecha,
+  pedidos.total,
+  pedidos.descripcion,
+  clientes.nombre,
+  clientes_ubicacion.direccion,
+  ciudades.ciudad_name,
+  estados.estado_name,
+  paises.pais_name
+FROM pedidos
+INNER JOIN clientes ON pedidos.cliente_id = clientes.id
+INNER JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id
+INNER JOIN ciudades ON clientes_ubicacion.ciudad_id = ciudades.id
+INNER JOIN estados ON ciudades.estado_id = estados.id
+INNER JOIN paises ON estados.pais_id = paises.id;
+
 -- 23
+-- relacionar productos con prveedores y producto_tipo
+SELECT 
+  productos.id AS id_producto,
+  productos.nombre,
+  productos.precio,
+  proveedores.id AS proveedor_id,
+  proveedores.nombre AS proveedor_nombre,
+  producto_tipo.nombre_tipo
+FROM productos
+INNER JOIN proveedores ON productos.proveedor_id = proveedores.id
+INNER JOIN producto_tipo ON productos.producto_tipo_id = producto_tipo.id;
+
 -- 24
+-- para este comando se requiere añadir una relacion entre empleados y pedidos cosa que ya se hizo en los comandos anteriores\
+SELECT DISTINCT empleados.id, empleados.nombre
+FROM empleados
+INNER JOIN pedidos ON empleados.id = pedidos.empleado_id
+INNER JOIN clientes ON pedidos.cliente_id = clientes.id
+INNER JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id
+INNER JOIN ciudades ON clientes_ubicacion.ciudad_id = ciudades.id
+WHERE ciudades.ciudad_name = 'Bogotá';
+
+
 -- 25
 -- 26
 -- 27

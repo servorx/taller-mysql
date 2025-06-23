@@ -339,10 +339,43 @@ FROM pedidos
 INNER JOIN clientes ON pedidos.cliente_id = clientes.id;
 ```
 ![alt text](image-21.png)
+
 ### 22
-
+```sql
+-- hacer join con las tablas de clientes, clientes_ubicacion, ciudades, estados y paises con pedidos.
+SELECT 
+  pedidos.id AS id_pedido,
+  pedidos.fecha,
+  pedidos.total,
+  pedidos.descripcion,
+  clientes.nombre,
+  clientes_ubicacion.direccion,
+  ciudades.ciudad_name,
+  estados.estado_name,
+  paises.pais_name
+FROM pedidos
+INNER JOIN clientes ON pedidos.cliente_id = clientes.id
+INNER JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id
+INNER JOIN ciudades ON clientes_ubicacion.ciudad_id = ciudades.id
+INNER JOIN estados ON ciudades.estado_id = estados.id
+INNER JOIN paises ON estados.pais_id = paises.id;
+```
+![alt text](image-22.png)
 ### 23
-
+```sql
+-- relacionar productos con prveedores y producto_tipo
+SELECT 
+  productos.id AS id_producto,
+  productos.nombre,
+  productos.precio,
+  proveedores.id AS proveedor_id,
+  proveedores.nombre AS proveedor_nombre,
+  producto_tipo.nombre_tipo
+FROM productos
+INNER JOIN proveedores ON productos.proveedor_id = proveedores.id
+INNER JOIN producto_tipo ON productos.producto_tipo_id = producto_tipo.id;
+```
+![alt text](image-23.png)
 ### 24
 
 ### 25
