@@ -140,3 +140,28 @@ INNER JOIN ciudades ON clientes_ubicacion.ciudad_id = ciudades.id
 WHERE ciudades.ciudad_name = 'Bogotá';
 
 -- 13
+-- inserta un empleado contratado actualmente
+INSERT empleados(nombre, salario, fecha_contratacion) VALUES ('Juanito Perez', 2500.00, '2024-10-16');
+
+SELECT empleados.id AS id_empleado,
+  empleados.nombre,
+  empleados.salario,
+  empleados.fecha_contratacion
+FROM empleados
+WHERE fecha_contratacion > '2023-06-22';
+
+-- 14
+-- insertar varios productos para un proveedor
+INSERT INTO productos (proveedor_id, producto_tipo_id, nombre, precio) VALUES (1, 2, 'Teclado', 50.00), (1, 2, 'Mouse', 25.00), (1, 2, 'Monitor', 200.00), (1, 2, 'CPU', 500.00), (1, 2, 'Impresora', 150.00), (1, 2, 'Parlantes', 80.00);
+
+-- el uso de having es necesario ya que el where no sirve con funciones agregadas como count. Y el group by se usa por el mismo error de sql_mode=only_full_group_by
+SELECT proveedores.id,
+  proveedores.nombre,
+  COUNT(productos.id) AS total_productos
+FROM proveedores
+JOIN productos ON proveedores.id = productos.proveedor_id
+GROUP BY proveedores.id, proveedores.nombre
+HAVING COUNT(productos.id) > 5;
+
+-- 15
+
