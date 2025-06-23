@@ -142,7 +142,28 @@ CREATE TABLE pedidos_historial (
 CREATE TABLE proveedores (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(100) NOT NULL,
-  direccion VARCHAR(255) NOT NULL
+  direccion VARCHAR(255) NOT NULL,
+  ciudad_id INT NOT NULL,
+  CONSTRAINT fk_ciudad_id_proveedores FOREIGN KEY (ciudad_id) REFERENCES proveedores_ciudades(id);
+) ENGINE=INNODB;
+
+CREATE TABLE proveedores_paises (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  pais_name VARCHAR(30) UNIQUE NOT NULL
+) ENGINE=INNODB;
+
+CREATE TABLE proveedores_estados (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  estado_name VARCHAR(30) UNIQUE NOT NULL,
+  pais_id INT NOT NULL,
+  CONSTRAINT fk_pais_id_proveedores_estados FOREIGN KEY (pais_id) REFERENCES proveedores_paises(id)
+) ENGINE=INNODB;
+
+CREATE TABLE proveedores_ciudades (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  ciudad_name VARCHAR(30) UNIQUE NOT NULL,
+  estado_id INT NOT NULL,
+  CONSTRAINT fk_estado_id_proveedores_ciudades FOREIGN KEY (estado_id) REFERENCES proveedores_estados(id)
 ) ENGINE=INNODB;
 
 -- Tabla Proveedores

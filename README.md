@@ -23,6 +23,9 @@ INSERT INTO datos_empleados (empleado_id, direccion, estado_civil) VALUES (1, 'C
 INSERT INTO datos_empleados_correo (datos_empleado_id, email_type, email_name) VALUES (1, 'corporativo', 'carlos@empresa.com'),(2, 'personal', 'luisa@personal.com');
 INSERT INTO datos_empleados_telefono (datos_empleado_id, telefono, telefono_type, telefono_prefijo) VALUES (1, '3100000001', 'móvil', '+57'),(2, '5551002002', 'fijo', '+52');
 INSERT INTO proveedores (nombre, direccion) VALUES ('Proveedor A', 'Cra 10 #20-30'),('Proveedor B', 'Av 15 #45-60');
+INSERT INTO proveedores_paises (pais_name) VALUES ('Colombia'), ('México'), ('Argentina');
+INSERT INTO proveedores_estados (estado_name, pais_id) VALUES('Cundinamarca', 1),('Antioquia', 1),('Jalisco', 2),('Buenos Aires', 3);
+INSERT INTO proveedores_ciudades (ciudad_name, estado_id) VALUES  ('Bogotá', 1),('Medellín', 2),('Guadalajara', 3),('La Plata', 4);
 INSERT INTO producto_tipo (nombre_tipo, descripcion) VALUES ('Electrónica', 'Productos electrónicos en general'),('Computadores', 'Laptops y PCs');
 INSERT INTO jerarquia_tipos (tipo_id, padre_id) VALUES (2, 1);
 INSERT INTO productos (proveedor_id, producto_tipo_id, nombre, precio) VALUES (1, 1, 'Audífonos', 120.00),(2, 2, 'Laptop Lenovo', 2300.00);
@@ -377,15 +380,83 @@ INNER JOIN producto_tipo ON productos.producto_tipo_id = producto_tipo.id;
 ```
 ![alt text](image-23.png)
 ### 24
+```sql
+-- para este comando se requiere añadir una relacion entre empleados y pedidos cosa que ya se hizo en los comandos anteriores.
+
+-- se tiene que hacer el JOIN con todas esas tablas para filtrar el pedido realizado por un cliente en una ciudad especifica 
+SELECT 
+  empleados.id AS id_empleado, 
+  empleados.nombre
+FROM empleados
+INNER JOIN pedidos ON empleados.id = pedidos.empleado_id
+INNER JOIN clientes ON pedidos.cliente_id = clientes.id
+INNER JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id
+INNER JOIN ciudades ON clientes_ubicacion.ciudad_id = ciudades.id
+WHERE ciudades.ciudad_name = 'Bogotá';
+```
+![alt text](image-24.png)
 
 ### 25
+```sql
+-- en este caso solo muestra 2 resultados porque solo hay 2 productos vendidos
+SELECT 
+  productos.id,
+  productos.nombre,
+  SUM(pedidos_detalle.cantidad) AS total_vendidos
+FROM productos
+INNER JOIN pedidos_detalle ON productos.id = pedidos_detalle.producto_id
+GROUP BY productos.id, productos.nombre
+ORDER BY total_vendidos DESC
+LIMIT 5;
+```
 
+![alt text](image-25.png)
 ### 26
-
+```sql
+-- GROUP BY porque toca agrupar la cantidad total de pedidos por cliente y ciudad
+SELECT 
+  clientes.id AS id_cliente,
+  clientes.nombre,
+  COUNT(pedidos.id) AS total_pedidos,
+  ciudades.ciudad_name,
+  estados.estado_name,
+  paises.pais_name
+FROM clientes
+INNER JOIN pedidos ON clientes.id = pedidos.cliente_id
+INNER JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id
+INNER JOIN ciudades ON clientes_ubicacion.ciudad_id = ciudades.id
+INNER JOIN estados ON ciudades.estado_id = estados.id
+INNER JOIN paises ON estados.pais_id = paises.id
+GROUP BY clientes.id, ciudades.id;
+```
+![alt text](image-26.png)
 ### 27
-
+```sql
+```
 ### 28
-
+```sql
+-- se realiza la multiplicacion por la cantidad de productos con el precio unitario
+SELECT 
+  producto_tipo.id AS id_tipo,
+  producto_tipo.nombre_tipo,
+  SUM(pedidos_detalle.cantidad * pedidos_detalle.precio_unitario) AS total_ventas
+FROM producto_tipo
+INNER JOIN productos ON producto_tipo.id = productos.producto_tipo_id
+INNER JOIN pedidos_detalle ON productos.id = pedidos_detalle.producto_id
+GROUP BY producto_tipo.nombre_tipo;
+```
+![alt text](image-28.png)
 ### 29
 
 ### 30
+```sql
+SELECT 
+  proveedores.id AS id_proveedor,
+  proveedores.nombre,
+  SUM(pedidos_detalle.cantidad * pedidos_detalle.precio_unitario) AS ingreso_total
+FROM proveedores
+INNER JOIN productos ON proveedores.id = productos.proveedor_id
+INNER JOIN pedidos_detalle ON productos.id = pedidos_detalle.producto_id
+GROUP BY proveedores.id, proveedores.nombre;
+```
+![alt text](image-30.png)
