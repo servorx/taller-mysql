@@ -313,7 +313,7 @@ INNER JOIN paises ON estados.pais_id = paises.id
 GROUP BY clientes.id, ciudades.id;
 
 -- 27
-para poder ejecutar este comando correctamente toca asignar una ciudad para proveedores y para ello se necesita volver a normalizar las tablas 
+-- para poder ejecutar este comando correctamente toca asignar una ciudad para proveedores y para ello se necesita volver a normalizar las tablas 
 SELECT 
   clientes.nombre AS nombre_cliente,
   proveedores.nombre AS nombre_proveedor,
