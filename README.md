@@ -23,9 +23,6 @@ INSERT INTO datos_empleados (empleado_id, direccion, estado_civil) VALUES (1, 'C
 INSERT INTO datos_empleados_correo (datos_empleado_id, email_type, email_name) VALUES (1, 'corporativo', 'carlos@empresa.com'),(2, 'personal', 'luisa@personal.com');
 INSERT INTO datos_empleados_telefono (datos_empleado_id, telefono, telefono_type, telefono_prefijo) VALUES (1, '3100000001', 'móvil', '+57'),(2, '5551002002', 'fijo', '+52');
 INSERT INTO proveedores (nombre, direccion) VALUES ('Proveedor A', 'Cra 10 #20-30'),('Proveedor B', 'Av 15 #45-60');
-INSERT INTO proveedores_paises (pais_name) VALUES ('Colombia'), ('México'), ('Argentina');
-INSERT INTO proveedores_estados (estado_name, pais_id) VALUES('Cundinamarca', 1),('Antioquia', 1),('Jalisco', 2),('Buenos Aires', 3);
-INSERT INTO proveedores_ciudades (ciudad_name, estado_id) VALUES  ('Bogotá', 1),('Medellín', 2),('Guadalajara', 3),('La Plata', 4);
 INSERT INTO producto_tipo (nombre_tipo, descripcion) VALUES ('Electrónica', 'Productos electrónicos en general'),('Computadores', 'Laptops y PCs');
 INSERT INTO jerarquia_tipos (tipo_id, padre_id) VALUES (2, 1);
 INSERT INTO productos (proveedor_id, producto_tipo_id, nombre, precio) VALUES (1, 1, 'Audífonos', 120.00),(2, 2, 'Laptop Lenovo', 2300.00);
