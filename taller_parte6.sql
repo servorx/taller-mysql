@@ -152,48 +152,130 @@ SELECT @total_empleados AS total_empleados;
 -- Un procedimiento que actualice el salario de empleados por puesto.
 DELIMITER $$
 
-CREATE PROCEDURE 
+CREATE PROCEDURE actualizar_salario(
+  IN e_puesto_id INT,
+  IN e_nuevo_salario DECIMAL(10, 2)
+) 
 BEGIN 
+  DECLARE mensaje VARCHAR(80);
+
+  UPDATE empleados 
+  SET salario = e_nuevo_salario
+  WHERE puesto_id = e_puesto_id;
+
+  IF ROW_COUNT() > 0 THEN 
+    SET mensaje = "salario actualizado correctamente";
+  ELSE 
+    SET mensaje = "error al actualizar salario";
+  END IF;
+
+  SELECT mensaje AS Mensaje;
 END $$
 
 DELIMITER ;
+
+CALL actualizar_salario(1, 2500.69); 
 
 -- 7
 -- Crear un procedimiento que liste los pedidos entre dos fechas.
 DELIMITER $$
 
-CREATE PROCEDURE 
+CREATE PROCEDURE listar_pedidos_1(
+  IN p_fecha_1 DATE,
+  IN p_fecha_2 DATE
+)
 BEGIN 
+  DECLARE mensaje VARCHAR(80);
+
+  SELECT * 
+  FROM pedidos
+  WHERE fecha BETWEEN p_fecha_1 AND p_fecha_2;
+
+  SET mensaje = 'Listado de pedidos generado';
+  SELECT mensaje AS Mensaje;
 END $$
 
 DELIMITER ;
+
+CALL listar_pedidos_1('2023-01-01','2025-01-01');
 
 -- 8
 -- Un procedimiento para aplicar un descuento a productos de una categoría.
 DELIMITER $$
 
-CREATE PROCEDURE 
+CREATE PROCEDURE descuento_7(
+  IN d_porcentaje INT,
+  IN d_id_producto_tipo INT,
+  OUT d_total DECIMAL(10, 2)
+)
 BEGIN 
+  DECLARE mensaje VARCHAR(80);
+
+  SELECT SUM(precio * d_porcentaje / 100)
+  INTO d_total
+  FROM productos
+  WHERE  producto_tipo_id = d_id_producto_tipo;
+
+  IF d_total IS NOT NULL THEN
+    SET mensaje = 'porcentaje calculado correctamente';
+  ELSE
+    SET mensaje = 'Error en el calculo';
+  END IF;
+
+  SELECT mensaje AS Mensaje;
 END $$
 
 DELIMITER ;
+
+CALL descuento_7(25, 2, @total_descuento);
+SELECT @total_descuento AS Descuento;
 
 -- 9
 -- Crear un procedimiento que liste todos los proveedores de un tipo de producto.
 DELIMITER $$
 
-CREATE PROCEDURE 
+CREATE PROCEDURE listar_proveedores_5(
+  IN p_producto_tipo_id INT
+)
 BEGIN 
+  DECLARE mensaje VARCHAR(80);
+
+  SELECT DISTINCT pr.id AS proveedor_id, 
+  pr.nombre AS proveedor_nombre,
+  p.producto_tipo_id AS producto_tipo_id
+  FROM productos AS p
+  JOIN proveedores AS pr ON p.proveedor_id = pr.id
+  WHERE p.producto_tipo_id = p_producto_tipo_id;
+
+  SET mensaje = 'resultados listados';
+
+  SELECT mensaje AS Mensaje;
 END $$
 
 DELIMITER ;
+
+CALL listar_proveedores_5(1);
 
 -- 10
 -- Un procedimiento que devuelva el pedido de mayor valor.
 DELIMITER $$
 
-CREATE PROCEDURE 
+CREATE PROCEDURE pedido_mayor_3(
+  OUT p_total DECIMAL(10, 2)
+)
 BEGIN 
+  DECLARE mensaje VARCHAR(80);
+
+  SELECT MAX(total)
+  INTO p_total 
+  FROM pedidos;
+
+  SET mensaje = 'resultados listados';
+
+  SELECT mensaje AS Mensaje;
 END $$
 
 DELIMITER ;
+
+CALL pedido_mayor_3(@pedido_mayor);
+SELECT @pedido_mayor AS pedido_mayor;
