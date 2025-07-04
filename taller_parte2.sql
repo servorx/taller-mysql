@@ -36,7 +36,6 @@ LEFT JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id;
 
 -- 4
 -- Consultar los empleados que han registrado pedidos, incluyendo empleados sin pedidos ( LEFT JOIN ).
--- comando de la consulta 
 SELECT 
   empleados.id AS id_empleado,
   empleados.nombre,
@@ -59,9 +58,6 @@ INNER JOIN productos ON productos.producto_tipo_id = producto_tipo.id;
 
 -- 6
 -- Listar todos los clientes y el número de pedidos realizados con COUNT y GROUP BY .
--- group devuelve el numero de filas de un criterio
--- se usa left join para que aparezcan tambien los clientes con o sin pedidos
--- este comando se usa de esta forma ya que de otra me hubiera dado el error 'sql_mode=only_full_group_by'
 SELECT 
   clientes.id AS cliente_id,
   clientes.nombre,
@@ -95,7 +91,6 @@ WHERE pedidos_detalle.producto_id IS NULL;
 
 -- 9
 -- Mostrar el total de pedidos y ubicación de clientes usando múltiples JOIN .
--- en este caso muestra un resultado por cada pedido para simplificar el procedimiento de la consula
 SELECT 
   pedidos.id AS id_pedido,
   pedidos.fecha,

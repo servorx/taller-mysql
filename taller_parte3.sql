@@ -97,5 +97,5 @@ SELECT
 FROM clientes
 INNER JOIN pedidos ON clientes.id = pedidos.cliente_id
 GROUP BY clientes.id, clientes.nombre, clientes.apellidos
-ORDER BY total_pedidos DESC
+ORDER BY total_pedidos ASC
 LIMIT 1;
