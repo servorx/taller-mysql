@@ -29,6 +29,28 @@ CREATE TABLE clientes_telefono (
   CONSTRAINT fk_cliente_id_clientes_telefono FOREIGN KEY (cliente_id) REFERENCES clientes(id)
 ) ENGINE=INNODB;
 
+-- tabla paises
+CREATE TABLE paises (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  pais_name VARCHAR(30) UNIQUE NOT NULL
+) ENGINE=INNODB;
+
+-- -- tabla estados
+CREATE TABLE estados (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  estado_name VARCHAR(30) UNIQUE NOT NULL,
+  pais_id INT NOT NULL,
+  CONSTRAINT fk_pais_id_estados FOREIGN KEY (pais_id) REFERENCES paises(id)
+) ENGINE=INNODB;
+
+-- tabla ciudades
+CREATE TABLE ciudades (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  ciudad_name VARCHAR(30) UNIQUE NOT NULL,
+  estado_id INT NOT NULL,
+  CONSTRAINT fk_estado_id_ciudades FOREIGN KEY (estado_id) REFERENCES estados(id)
+) ENGINE=INNODB;
+
 -- Tabla clientes_ubicacion
 CREATE TABLE clientes_ubicacion (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -41,27 +63,15 @@ CREATE TABLE clientes_ubicacion (
   CONSTRAINT fk_ciudad_id_clientes_ubicacion FOREIGN KEY (ciudad_id) REFERENCES ciudades(id) 
 ) ENGINE=INNODB;
 
--- tabla ciudades
-CREATE TABLE ciudades (
+-- tabla de ubicaciones generica
+CREATE TABLE ubicaciones (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  ciudad_name VARCHAR(30) UNIQUE NOT NULL,
-  estado_id INT NOT NULL,
-  CONSTRAINT fk_estado_id_ciudades FOREIGN KEY (estado_id) REFERENCES estados(id)
-) ENGINE=INNODB;
-
--- -- tabla estados
-CREATE TABLE estados (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  estado_name VARCHAR(30) UNIQUE NOT NULL,
-  pais_id INT NOT NULL,
-  CONSTRAINT fk_pais_id_estados FOREIGN KEY (pais_id) REFERENCES paises(id)
-) ENGINE=INNODB;
-
--- tabla paises
-CREATE TABLE paises (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  pais_name VARCHAR(30) UNIQUE NOT NULL
-) ENGINE=INNODB;
+  ciudad_id INT NOT NULL,
+  direccion VARCHAR(80),
+  codigo_postal VARCHAR(20),
+  descripcion VARCHAR(255),
+  CONSTRAINT fk_ciudad_id_ubicaciones FOREIGN KEY (ciudad_id) REFERENCES ciudades(id)
+);
 
 -- Tabla puestos
 CREATE TABLE puestos (
@@ -113,8 +123,35 @@ CREATE TABLE pedidos (
   cliente_id INT NOT NULL,
   fecha DATE NOT NULL,
   total DECIMAL(10, 2) NOT NULL,
-  descripcion VARCHAR(255), 
+  descripcion VARCHAR(255),
   CONSTRAINT fk_cliente_id_pedidos FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+) ENGINE=INNODB;
+
+-- Tabla Proveedores
+CREATE TABLE proveedores (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(100) NOT NULL,
+  direccion VARCHAR(255) NOT NULL,
+  ciudad_id INT NOT NULL,
+  CONSTRAINT fk_ciudad_id_proveedores FOREIGN KEY (ciudad_id) REFERENCES ciudades(id)
+) ENGINE=INNODB;
+
+-- Tabla TiposProductos
+CREATE TABLE producto_tipo (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre_tipo VARCHAR(80) UNIQUE NOT NULL,
+  descripcion VARCHAR(255) UNIQUE NOT NULL
+) ENGINE=INNODB;
+
+-- Tabla Productos
+CREATE TABLE productos (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  proveedor_id INT NOT NULL,
+  producto_tipo_id INT NOT NULL,
+  nombre VARCHAR(40) NOT NULL,
+  precio DECIMAL(10, 2) NOT NULL,
+  CONSTRAINT fk_proveedor_id_productos FOREIGN KEY (proveedor_id) REFERENCES proveedores(id),
+  CONSTRAINT fk_producto_tipo_id_productos FOREIGN KEY (producto_tipo_id) REFERENCES producto_tipo(id)
 ) ENGINE=INNODB;
 
 -- Tabla DetallesPedido
@@ -137,16 +174,6 @@ CREATE TABLE pedidos_historial (
   cambio_descripcion VARCHAR(255) NOT NULL,
   CONSTRAINT fk_pedido_id_pedidos_historial FOREIGN KEY (pedido_id) REFERENCES pedidos(id)
 ) ENGINE=INNODB;
-
--- Tabla Proveedores
-CREATE TABLE proveedores (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre VARCHAR(100) NOT NULL,
-  direccion VARCHAR(255) NOT NULL,
-  ciudad_id INT NOT NULL,
-  CONSTRAINT fk_ciudad_id_proveedores FOREIGN KEY (ciudad_id) REFERENCES ciudades q2(id);
-) ENGINE=INNODB;
-
 
 -- Tabla Proveedores
 CREATE TABLE proveedores_contacto (
@@ -174,24 +201,6 @@ CREATE TABLE proveedores_empleados (
   PRIMARY KEY (empleado_id, proveedor_id),
   CONSTRAINT fk_empleado_id_proveedores_empleados FOREIGN KEY (empleado_id) REFERENCES empleados(id),
   CONSTRAINT fk_proveedor_id_proveedores_empleados FOREIGN KEY (proveedor_id) REFERENCES proveedores(id)
-) ENGINE=INNODB;
-
--- Tabla Productos
-CREATE TABLE productos (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  proveedor_id INT,
-  producto_tipo_id INT,
-  nombre VARCHAR(40) NOT NULL,
-  precio DECIMAL NOT NULL,
-  CONSTRAINT fk_proveedor_id_productos FOREIGN KEY (proveedor_id) REFERENCES proveedores(id),
-  CONSTRAINT fk_producto_tipo_id_productos FOREIGN KEY (producto_tipo_id) REFERENCES producto_tipo(id)
-) ENGINE=INNODB;
-
--- Tabla TiposProductos
-CREATE TABLE producto_tipo (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  nombre_tipo VARCHAR(80) UNIQUE NOT NULL,
-  descripcion VARCHAR(255) UNIQUE NOT NULL
 ) ENGINE=INNODB;
 
 CREATE TABLE jerarquia_tipos (
