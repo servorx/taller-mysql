@@ -1,6 +1,7 @@
 -- CONSULTAS MULTITABLA
 
--- 21
+-- 1
+-- Listar todos los pedidos y el cliente asociado.
 -- relacionar pedidos con clientes
 SELECT 
   pedidos.id AS id_pedido,
@@ -12,7 +13,8 @@ SELECT
 FROM pedidos
 INNER JOIN clientes ON pedidos.cliente_id = clientes.id;
 
--- 22
+-- 2
+-- Mostrar la ubicación de cada cliente en sus pedidos.
 -- hacer join con las tablas de clientes, clientes_ubicacion, ciudades, estados y paises con pedidos.
 SELECT 
   pedidos.id AS id_pedido,
@@ -31,7 +33,8 @@ INNER JOIN ciudades ON clientes_ubicacion.ciudad_id = ciudades.id
 INNER JOIN estados ON ciudades.estado_id = estados.id
 INNER JOIN paises ON estados.pais_id = paises.id;
 
--- 23
+-- 3
+-- Listar productos junto con el proveedor y tipo de producto.
 -- relacionar productos con proveedores y producto_tipo
 SELECT 
   productos.id AS id_producto,
@@ -44,9 +47,8 @@ FROM productos
 INNER JOIN proveedores ON productos.proveedor_id = proveedores.id
 INNER JOIN producto_tipo ON productos.producto_tipo_id = producto_tipo.id;
 
--- 24
--- para este comando se requiere añadir una relacion entre empleados y pedidos cosa que ya se hizo en los comandos anteriores.
-
+-- 4
+-- Consultar todos los empleados que gestionan pedidos de clientes en una ciudad específica.
 -- se tiene que hacer el JOIN con todas esas tablas para filtrar el pedido realizado por un cliente en una ciudad especifica 
 SELECT 
   empleados.id AS id_empleado, 
@@ -58,19 +60,21 @@ INNER JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id
 INNER JOIN ciudades ON clientes_ubicacion.ciudad_id = ciudades.id
 WHERE ciudades.ciudad_name = 'Bogotá';
 
--- 25
+-- 5
+-- Consultar los 5 productos más vendidos.
 -- listar los 5 productos mas vendidos, la misma logica que en el ejercicio 19. Otra vez el GROUP BY por el sql_mode=only_full_group_by
-SELECT 
-  productos.id,
-  productos.nombre,
-  SUM(pedidos_detalle.cantidad) AS total_vendidos
-FROM productos
-INNER JOIN pedidos_detalle ON productos.id = pedidos_detalle.producto_id
-GROUP BY productos.id, productos.nombre
-ORDER BY total_vendidos DESC
-LIMIT 5;
+  SELECT 
+    productos.id,
+    productos.nombre,
+    SUM(pedidos_detalle.cantidad) AS total_vendidos
+  FROM productos
+  INNER JOIN pedidos_detalle ON productos.id = pedidos_detalle.producto_id
+  GROUP BY productos.id, productos.nombre
+  ORDER BY total_vendidos DESC
+  LIMIT 5;
 
--- 26
+-- 6
+-- Obtener la cantidad total de pedidos por cliente y ciudad.
 -- GROUP BY porque toca agrupar la cantidad total de pedidos por cliente y ciudad
 SELECT 
   clientes.id AS id_cliente,
@@ -87,18 +91,19 @@ INNER JOIN estados ON ciudades.estado_id = estados.id
 INNER JOIN paises ON estados.pais_id = paises.id
 GROUP BY clientes.id, ciudades.id;
 
--- 27
--- para poder ejecutar este comando correctamente toca asignar una ciudad para proveedores y para ello se necesita volver a normalizar las tablas 
+-- 7
+-- Listar clientes y proveedores en la misma ciudad.
 SELECT 
-  clientes.nombre AS nombre_cliente,
-  proveedores.nombre AS nombre_proveedor,
+  c.nombre AS nombre_cliente,
+  p.nombre AS nombre_proveedor,
   ciudades.ciudad_name
-FROM clientes
-INNER JOIN clientes_ubicacion ON clientes.id = clientes_ubicacion.cliente_id
+FROM clientes AS c
+INNER JOIN clientes_ubicacion ON c.id = clientes_ubicacion.cliente_id
 INNER JOIN ciudades ON clientes_ubicacion.ciudad_id = ciudades.id
-INNER JOIN proveedores ON proveedores.direccion LIKE CONCAT('%', ciudades.ciudad_name, '%');
+INNER JOIN proveedores AS p ON p.ciudad_id = ciudades.id;
 
--- 28
+-- 8
+-- Mostrar el total de ventas agrupado por tipo de producto
 -- se realiza la multiplicacion por la cantidad de productos con el precio unitario
 SELECT 
   producto_tipo.id AS id_tipo,
@@ -109,7 +114,8 @@ INNER JOIN productos ON producto_tipo.id = productos.producto_tipo_id
 INNER JOIN pedidos_detalle ON productos.id = pedidos_detalle.producto_id
 GROUP BY producto_tipo.nombre_tipo;
 
--- 29
+-- 9
+-- Listar empleados que gestionan pedidos de productos de un proveedor específico.
 SELECT  
   empleados.id, empleados.nombre
 FROM empleados
@@ -119,7 +125,8 @@ INNER JOIN productos ON pedidos_detalle.producto_id = productos.id
 INNER JOIN proveedores ON productos.proveedor_id = proveedores.id
 WHERE proveedores.nombre = 'Proveedor B';
 
--- 30
+-- 10
+-- Obtener el ingreso total de cada proveedor a partir de los productos vendidos
 SELECT 
   proveedores.id AS id_proveedor,
   proveedores.nombre,
