@@ -121,10 +121,12 @@ CREATE TABLE datos_empleados_telefono (
 CREATE TABLE pedidos (
   id INT PRIMARY KEY AUTO_INCREMENT,
   cliente_id INT NOT NULL,
+  empleado_id INT,
   fecha DATE NOT NULL,
   total DECIMAL(10, 2) NOT NULL,
   descripcion VARCHAR(255),
-  CONSTRAINT fk_cliente_id_pedidos FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+  CONSTRAINT fk_cliente_id_pedidos FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+  CONSTRAINT fk_empleado_id_pedidos FOREIGN KEY (empleado_id) REFERENCES empleados(id)
 ) ENGINE=INNODB;
 
 -- Tabla Proveedores

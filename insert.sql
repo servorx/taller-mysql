@@ -14,7 +14,7 @@ INSERT INTO clientes_telefono (cliente_id, telefono, telefono_type, telefono_pre
 
 INSERT INTO puestos (nombre_puesto) VALUES ('Vendedor'),('Administrador'),('Gerente'),('Técnico'),('Soporte'),('Mensajero'),('Analista');
 
-INSERT INTO empleados (puesto_id, nombre, salario, fecha_contratacion) VALUES (1, 'Carlos López', 3000.00, '2023-01-10'),(2, 'Luisa Fernández', 4500.00, '2022-06-15'),(3, 'Andrea Torres', 2500.00, '2021-02-20'),(4, 'Luis Ramírez', 1800.00, '2020-08-01'),(5, 'Elena Castro', 3200.00, '2022-10-10'),(6, 'Jorge León', 5000.00, '2019-03-15'),(7, 'Sofía Mendoza', 2700.00, '2023-04-12');
+INSERT INTO empleados (puesto_id, nombre, salario, fecha_contratacion) VALUES (1, 'Carlos López', 3000.00, '2023-01-10'),(2, 'Luisa Fernández', 4500.00, '2022-06-15'),(3, 'Andrea Torres', 2500.00, '2021-02-20'),(4, 'Luis Ramírez', 1800.00, '2020-08-01'),(5, 'Elena Castro', 3200.00, '2022-10-10'),(6, 'Jorge León', 5000.00, '2019-03-15'),(7, 'Sofía Mendoza', 2700.00, '2024-04-12'),(1, 'Juanito Perez', 2500.00, '2024-10-16');
 
 INSERT INTO datos_empleados (empleado_id, direccion, estado_civil) VALUES (1, 'Calle 10 Sur', 'Soltero'),(2, 'Av Central', 'Casado'),(3, 'Calle 15', 'Soltero'),(4, 'Av Siempreviva 742', 'Casado'),(5, 'Calle Luna 22', 'Soltero'),(6, 'Cra 14', 'Divorciado'),(7, 'Av 33', 'Casado');
 
@@ -28,9 +28,9 @@ INSERT INTO producto_tipo (nombre_tipo, descripcion) VALUES ('Electrónica', 'Pr
 
 INSERT INTO jerarquia_tipos (tipo_id, padre_id) VALUES (2, 1),(3, 1),(4, 1),(5, 1),(6, 1);
 
-INSERT INTO productos (proveedor_id, producto_tipo_id, nombre, precio) VALUES (1, 1, 'Audífonos', 120.00),(2, 2, 'Laptop Lenovo', 2300.00),(1, 3, 'Mouse Logitech', 80.00),(2, 4, 'Funda Laptop', 40.00),(3, 2, 'Teclado Mecánico', 150.00),(4, 5, 'Windows 11 Pro', 350.00),(5, 6, 'Router TP-Link', 200.00),(3, 1, 'Tablet Samsung', 850.00);
+INSERT INTO productos (proveedor_id, producto_tipo_id, nombre, precio) VALUES (1, 1, 'Audífonos', 120.00),(2, 2, 'Laptop Lenovo', 2300.00),(1, 3, 'Mouse Logitech', 80.00),(2, 4, 'Funda Laptop', 40.00),(3, 2, 'Teclado Mecánico', 150.00),(4, 5, 'Windows 11 Pro', 350.00),(5, 6, 'Router TP-Link', 200.00),(3, 1, 'Tablet Samsung', 850.00),(1, 2, 'Teclado', 50.00), (1, 2, 'Mouse', 25.00), (1, 2, 'Monitor', 200.00), (1, 2, 'CPU', 500.00), (1, 2, 'Impresora', 150.00), (1, 2, 'Parlantes', 80.00);
 
-INSERT INTO pedidos (cliente_id, fecha, total, descripcion) VALUES (1, '2024-06-01', 2420.00, 'Compra en línea'),(2, '2024-06-02', 120.00, 'Compra física'),(3, '2024-06-03', 850.00, 'Compra de tablet'),(4, '2024-06-04', 270.00, 'Compra periféricos'),(5, '2024-06-05', 350.00, 'Compra software'),(6, '2024-06-06', 200.00, 'Compra red'),(7, '2024-06-07', 40.00, 'Compra accesorio'),(8, '2024-06-08', 150.00, 'Teclado mecánico');
+INSERT INTO pedidos (cliente_id, fecha, total, descripcion, empleado_id) VALUES (1, '2024-06-01', 2420.00, 'Compra en línea', 1),(2, '2024-06-02', 120.00, 'Compra física', 2),(3, '2024-06-03', 850.00, 'Compra de tablet',3),(4, '2024-06-04', 270.00, 'Compra periféricos',4),(5, '2024-06-05', 350.00, 'Compra software',5),(6, '2024-06-06', 200.00, 'Compra red', 6),(7, '2024-06-07', 40.00, 'Compra accesorio',7),(8, '2024-06-08', 150.00, 'Teclado mecánico',1);
 
 INSERT INTO pedidos_detalle (pedido_id, producto_id, cantidad, precio_unitario) VALUES (1, 2, 1, 2300.00),(1, 1, 1, 120.00),(2, 1, 1, 120.00),(3, 8, 1, 850.00),  (4, 3, 2, 80.00),   (4, 5, 1, 110.00),  (5, 6, 1, 350.00),  (6, 7, 1, 200.00),  (7, 4, 1, 40.00),   (8, 5, 1, 150.00);
 
